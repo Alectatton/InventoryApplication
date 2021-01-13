@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" fx:id="scrMain" prefHeight="420.0" prefWidth="1100.0" snapToPixel="false" style="-fx-background-color: #D3D3D3;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.MainScreenController">
+   <children>
+
+      <Text layoutX="34.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Inventory Management System" wrappingWidth="215.38829040527344">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Text>
+      <VBox layoutX="9.0" layoutY="51.0" prefHeight="325.0" prefWidth="525.0">
+         <children>
+            <SplitPane dividerPositions="0.29797979797979796" prefHeight="34.0" prefWidth="520.0">
+              <items>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="32.0" prefWidth="85.0">
+                     <children>
+                        <Text layoutX="22.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Parts" wrappingWidth="53.777777777777715">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="32.0" prefWidth="314.0">
+                     <children>
+                        <TextField layoutX="88.0" layoutY="4.0" prefHeight="25.0" prefWidth="185.0" promptText="Search by Part ID or Name" />
+                     </children></AnchorPane>
+              </items>
+            </SplitPane>
+            <TableView fx:id="partsTable" prefHeight="241.0" prefWidth="505.0">
+              <columns>
+                <TableColumn fx:id="partIDCol" prefWidth="92.44445419311523" text="Part ID" />
+                <TableColumn fx:id="partNameCol" prefWidth="115.5555419921875" text="Part Name" />
+                  <TableColumn fx:id="partInvCol" prefWidth="134.22225952148438" text="Inventory Level" />
+                  <TableColumn fx:id="partCostCol" prefWidth="182.22225952148438" text="Price/Cost per unit" />
+              </columns>
+            </TableView>
+            <ButtonBar buttonMinWidth="20.0" prefWidth="520.0">
+              <buttons>
+                  <Button fx:id="partDelete" minWidth="0.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="57.0" text="Delete" />
+                <Button fx:id="partAdd" mnemonicParsing="false" onAction="#addPartsScreen" text="Add" />
+                  <Button fx:id="partMod" mnemonicParsing="false" onAction="#modPartsScreen" text="Modify" />
+              </buttons>
+            </ButtonBar>
+         </children>
+      </VBox>
+      <VBox layoutX="542.0" layoutY="51.0" prefHeight="325.0" prefWidth="525.0">
+         <children>
+            <SplitPane dividerPositions="0.29797979797979796" prefHeight="34.0" prefWidth="520.0">
+               <items>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="32.0" prefWidth="200.0">
+                     <children>
+                        <Text layoutX="22.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Products" wrappingWidth="84.88886176215271">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="32.0" prefWidth="314.0">
+                     <children>
+                        <TextField layoutX="90.0" layoutY="4.0" prefHeight="25.0" prefWidth="185.0" promptText="Search by Product ID or Name" />
+                     </children></AnchorPane>
+               </items>
+            </SplitPane>
+            <TableView fx:id="productTable" prefHeight="241.0" prefWidth="520.0">
+               <columns>
+                  <TableColumn fx:id="productIDCol" prefWidth="99.111083984375" text="Product ID" />
+                  <TableColumn fx:id="productNameCol" prefWidth="145.3333740234375" text="Product Name" />
+                  <TableColumn fx:id="productInvCol" prefWidth="101.3333740234375" text="Inventory Level" />
+                  <TableColumn fx:id="productCostCol" minWidth="5.7777099609375" prefWidth="178.66658528645837" text="Price/Cost per unit" />
+               </columns>
+            </TableView>
+            <ButtonBar buttonMinWidth="20.0" prefWidth="520.0">
+               <buttons>
+                  <Button fx:id="productDelete" minWidth="0.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="57.0" text="Delete" />
+                  <Button fx:id="productAdd" mnemonicParsing="false" onAction="#addProductScreen" text="Add" />
+                  <Button fx:id="productMod" mnemonicParsing="false" onAction="#modProductScreen" text="Modify" />
+               </buttons>
+            </ButtonBar>
+         </children>
+      </VBox>
+      <Button fx:id="exitButton" layoutX="995.0" layoutY="376.0" mnemonicParsing="false" onAction="#handleCloseButtonAction" text="Exit">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>
