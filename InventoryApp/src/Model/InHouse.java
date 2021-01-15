@@ -11,7 +11,7 @@ public final class InHouse extends Part {
     
     private int machineID;
     
-    public InHouse(int partID, String name, double price, int stock, int min, int max, int machID) {
+    public InHouse() {
         
         setId(partID);
         setName(name);
@@ -19,7 +19,7 @@ public final class InHouse extends Part {
         setStock(stock);
         setMax(max);
         setMin(min);
-        setMachineID(machID);
+        setMachineID(machineID);
     }
     
     public void setMachineID(int id) {
