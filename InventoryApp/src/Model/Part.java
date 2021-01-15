@@ -13,7 +13,7 @@ public abstract class Part {
     public int max;
     public int min;
     
-    public Part(int partID, String name, double price, int stock, int max, int min) {
+    public Part() {
         this.partID = partID;
         this.name = name;
         this.price = price;
