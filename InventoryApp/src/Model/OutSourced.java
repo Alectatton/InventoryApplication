@@ -9,7 +9,7 @@ public class OutSourced extends Part {
     
     private String companyName;
 
-    public OutSourced(int partID, String name, double price, int stock, int min, int max, String companyName) {
+    public OutSourced() {
     }
     
     public String getCompanyName() {
