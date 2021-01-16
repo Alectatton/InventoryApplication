@@ -48,7 +48,7 @@
             </TableView>
             <ButtonBar buttonMinWidth="20.0" prefWidth="520.0">
               <buttons>
-                  <Button fx:id="partDelete" minWidth="0.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="57.0" text="Delete" />
+                  <Button fx:id="partDelete" minWidth="0.0" mnemonicParsing="false" onAction="#deleteButtonAction" prefHeight="26.0" prefWidth="57.0" text="Delete" />
                 <Button fx:id="partAdd" mnemonicParsing="false" onAction="#addPartsScreen" text="Add" />
                   <Button fx:id="partMod" mnemonicParsing="false" onAction="#modPartsScreen" text="Modify" />
               </buttons>
@@ -84,7 +84,7 @@
             </TableView>
             <ButtonBar buttonMinWidth="20.0" prefWidth="520.0">
                <buttons>
-                  <Button fx:id="productDelete" minWidth="0.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="57.0" text="Delete" />
+                  <Button fx:id="productDelete" minWidth="0.0" mnemonicParsing="false" onAction="#deleteProductAction" prefHeight="18.0" prefWidth="57.0" text="Delete" />
                   <Button fx:id="productAdd" mnemonicParsing="false" onAction="#addProductScreen" text="Add" />
                   <Button fx:id="productMod" mnemonicParsing="false" onAction="#modProductScreen" text="Modify" />
                </buttons>

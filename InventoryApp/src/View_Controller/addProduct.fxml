@@ -40,12 +40,12 @@
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Price" GridPane.rowIndex="3" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Max" GridPane.rowIndex="4" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Min" GridPane.rowIndex="5" />
-                        <TextField disable="true" promptText="Auto gen - Disabled" GridPane.columnIndex="1" />
-                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <TextField fx:id="addProdID" disable="true" promptText="Auto gen - Disabled" GridPane.columnIndex="1" />
+                        <TextField fx:id="addProdName" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField fx:id="addProdInv" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <TextField fx:id="addProdPrice" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <TextField fx:id="addProdMax" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <TextField fx:id="addProdMin" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                      </children>
                   </GridPane>
                   <Text layoutX="36.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add Product">
@@ -91,7 +91,7 @@
                         <ButtonBar buttonMinWidth="50.0" prefHeight="40.0" prefWidth="100.0">
                           <buttons>
                             <Button fx:id="addProdRemove" mnemonicParsing="false" prefHeight="25.0" text="Remove Part" />
-                              <Button fx:id="addProdSave" mnemonicParsing="false" prefHeight="25.0" text="Save" />
+                              <Button fx:id="addProdSave" mnemonicParsing="false" onAction="#handleSaveAction" prefHeight="25.0" text="Save" />
                               <Button fx:id="addProdCancel" mnemonicParsing="false" onAction="#cancelButtonAction" text="Cancel" />
                           </buttons>
                         </ButtonBar>

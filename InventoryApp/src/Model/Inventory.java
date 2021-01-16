@@ -1,6 +1,5 @@
 package Model;
 
-import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -10,8 +9,9 @@ import javafx.collections.ObservableList;
  */
 public class Inventory {
     
-   private static ObservableList<Product> products = FXCollections.observableArrayList();
-   private static ObservableList<Part> allParts = FXCollections.observableArrayList();
+   private static final ObservableList<Product> products = FXCollections.observableArrayList();
+   private static final ObservableList<Part> allParts = FXCollections.observableArrayList();
+    private static int partID;
    
    public Inventory() {
    }
@@ -20,8 +20,11 @@ public class Inventory {
         allParts.addAll(part);
     }
     
-    public static void removePart(Part part) {
-        allParts.add(part);
+    public static void removePart(int partID) {
+        for (Part i : allParts) {
+            if (i.getId() == partID)
+                allParts.remove(i);
+        }
     }
     
     public static void modPart(int i, Part part) {
@@ -31,15 +34,16 @@ public class Inventory {
     public static ObservableList<Part> getParts() {
         return allParts;
     }
-    
-    
 
     public static void addProduct(Product product) {
         products.add(product);
     }
     
-    public static void removeProduct(Product product) {
-        products.remove(product);
+    public static void removeProduct(int productID) {
+        for (Product i : products) {
+            if (i.getProductId() == productID)
+                products.remove(i);
+        }
     }
     
     public static void modProduct(int i, Product product) {
@@ -48,6 +52,11 @@ public class Inventory {
     
     public static ObservableList<Product> getProducts() {
         return products;
+    }
+    
+    public static int getPartIDCount() {
+        partID++;
+        return partID;
     }
    
 }

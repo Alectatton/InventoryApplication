@@ -42,12 +42,12 @@
             <Button fx:id="addPartSave" mnemonicParsing="false" onAction="#handleSaveAction" text="Save" GridPane.columnIndex="2" GridPane.rowIndex="6" GridPane.valignment="BOTTOM" />
             <Button fx:id="addPartCancel" mnemonicParsing="false" onAction="#cancelButtonAction" text="Cancel" GridPane.columnIndex="3" GridPane.rowIndex="6" GridPane.valignment="BOTTOM" />
             <TextField disable="true" promptText="Auto gen - Disabled" GridPane.columnIndex="1" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <TextField GridPane.columnIndex="3" GridPane.rowIndex="4" />
+            <TextField fx:id="addPartName" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="addPartInv" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="addPartPrice" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="addPartMax" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <TextField fx:id="addPartMachineID" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <TextField fx:id="addPartMin" GridPane.columnIndex="3" GridPane.rowIndex="4" />
          </children>
          <padding>
             <Insets top="1.0" />

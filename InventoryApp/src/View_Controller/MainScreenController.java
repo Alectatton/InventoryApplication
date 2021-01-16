@@ -45,8 +45,8 @@ public class MainScreenController implements Initializable {
     @FXML private Button partAdd;
     @FXML private Button partMod;
     @FXML private TextField partSearch;
-    @FXML private ObservableList<Part> partInventory = FXCollections.observableArrayList();
-    @FXML private ObservableList<Part> partInventorySearch = FXCollections.observableArrayList();
+    @FXML private final ObservableList<Part> partInventory = FXCollections.observableArrayList();
+    @FXML private final ObservableList<Part> partInventorySearch = FXCollections.observableArrayList();
     
     //Products
     @FXML private TableView<Product> productTable;
@@ -58,11 +58,12 @@ public class MainScreenController implements Initializable {
     @FXML private Button productAdd;
     @FXML private Button productMod;
     @FXML private TextField productSearch;
-    @FXML private ObservableList<Product> prodInventory = FXCollections.observableArrayList();
-    @FXML private ObservableList<Product> prodInventorySearch = FXCollections.observableArrayList();
+    @FXML private final ObservableList<Product> prodInventory = FXCollections.observableArrayList();
+    @FXML private final ObservableList<Product> prodInventorySearch = FXCollections.observableArrayList();
     
     @FXML private Button exitButton;
     @FXML private Inventory inv;
+    private static Part selectedPart;
 
    
      /* Initializes the controller class.
@@ -102,11 +103,22 @@ public class MainScreenController implements Initializable {
     */
     @FXML  
     public void modPartsScreen() throws IOException{
+        selectedPart = partsTable.getSelectionModel().getSelectedItem();
+        
         Parent loader = FXMLLoader.load(getClass().getResource("modPart.fxml"));
         Scene scene = new Scene(loader);
         Stage window = (Stage) partMod.getScene().getWindow();
         window.setScene(scene);
         window.show();
+    }
+    
+    /*
+    Removes the selected product from the parts list
+    */
+    @FXML
+    public void deleteButtonAction() {
+        Part part = partsTable.getSelectionModel().getSelectedItem();
+        Inventory.removePart(part.getId());
     }
     
     /*
@@ -126,11 +138,23 @@ public class MainScreenController implements Initializable {
     */
     @FXML  
     public void modProductScreen() throws IOException{
+        selectedPart = partsTable.getSelectionModel().getSelectedItem();
         Parent loader = FXMLLoader.load(getClass().getResource("modProduct.fxml"));
         Scene scene = new Scene(loader);
         Stage window = (Stage) productMod.getScene().getWindow();
+        window.setTitle("Modify Product");
         window.setScene(scene);
         window.show();
+    }
+    
+    public static Part getSelectedPart() {
+        return selectedPart;
+    }
+    
+    @FXML
+    public void deleteProductAction() {
+        Product product = productTable.getSelectionModel().getSelectedItem();
+        Inventory.removeProduct(product.getProductId());
     }
     
     /*

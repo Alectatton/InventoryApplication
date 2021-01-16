@@ -13,8 +13,8 @@
 <AnchorPane id="AnchorPane" prefHeight="473.0" prefWidth="559.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.modPartController">
    <children>
       <Text layoutX="36.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Modify Part" wrappingWidth="92.00238037109375" />
-      <RadioButton fx:id="modPartInHouse" layoutX="156.0" layoutY="26.0" mnemonicParsing="false" text="In-House" />
-      <RadioButton fx:id="modPartOutsourced" layoutX="266.0" layoutY="26.0" mnemonicParsing="false" text="Outsourced" />
+      <RadioButton fx:id="modPartInHouse" layoutX="156.0" layoutY="26.0" mnemonicParsing="false" onAction="#partTypeChange" text="In-House" />
+      <RadioButton fx:id="modPartOutsourced" layoutX="266.0" layoutY="26.0" mnemonicParsing="false" onAction="#partTypeChange" text="Outsourced" />
       <GridPane layoutX="28.0" layoutY="69.0" prefHeight="310.0" prefWidth="490.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="120.11114501953125" minWidth="10.0" prefWidth="100.77777777777777" />
@@ -37,17 +37,17 @@
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Inventory" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Price/Cost" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Max" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Machine ID" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
+            <Text fx:id="machineIdText" strokeType="OUTSIDE" strokeWidth="0.0" text="Machine ID" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Min" wrappingWidth="23.583740234375" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
-            <Button fx:id="modPartSave" alignment="CENTER" mnemonicParsing="false" text="Save" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="BOTTOM" />
+            <Button fx:id="modPartSave" alignment="CENTER" mnemonicParsing="false" onAction="#handleSaveAction" text="Save" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="BOTTOM" />
             <Button fx:id="modPartCancel" alignment="CENTER" mnemonicParsing="false" onAction="#cancelButtonAction" text="Cancel" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="BOTTOM" />
-            <TextField disable="true" promptText="Auto gen - Disabled" GridPane.columnIndex="1" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <TextField GridPane.columnIndex="3" GridPane.rowIndex="4" />
+            <TextField fx:id="modPartID" disable="true" promptText="Auto gen - Disabled" GridPane.columnIndex="1" />
+            <TextField fx:id="modPartName" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="modPartInv" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="modPartPrice" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="modPartMax" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <TextField fx:id="modPartMachineID" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <TextField fx:id="modPartMin" GridPane.columnIndex="3" GridPane.rowIndex="4" />
          </children>
          <padding>
             <Insets top="1.0" />

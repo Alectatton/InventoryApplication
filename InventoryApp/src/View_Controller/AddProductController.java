@@ -5,7 +5,9 @@
  */
 package View_Controller;
 
+import static Model.Inventory.addProduct;
 import Model.Part;
+import Model.Product;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -54,7 +56,40 @@ public class AddProductController implements Initializable {
     @FXML private Button addProdRemove;
     @FXML private Button addProdSave;
     @FXML private Button addProdCancel;
+    
+    //Initialize variables as strings
+    int prodId;
+    String name;
+    String inv;
+    String price;
+    String max;
+    String min;
 
+    @FXML
+    public void handleSaveAction() throws IOException {
+        prodId = 1001;
+        name = addProdName.getText();
+        inv = addProdInv.getText();
+        price = addProdPrice.getText();
+        max = addProdMax.getText();
+        min = addProdMin.getText();
+        
+        Product newProduct = new Product();
+        newProduct.setProductID(prodId);
+        newProduct.setProductName(name);
+        newProduct.setProductStock(Integer.parseInt(inv));
+        newProduct.setProductPrice(Double.parseDouble(price));
+        newProduct.setProductMax(Integer.parseInt(max));
+        newProduct.setProductMin(Integer.parseInt(min));
+        
+        addProduct(newProduct);
+        
+        Parent loader = FXMLLoader.load(getClass().getResource("mainScreen.fxml"));
+        Scene scene = new Scene(loader);
+        Stage window = (Stage) addProdSave.getScene().getWindow();
+        window.setScene(scene);
+        window.show();
+    }
     
     @FXML  
     public void cancelButtonAction() throws IOException{

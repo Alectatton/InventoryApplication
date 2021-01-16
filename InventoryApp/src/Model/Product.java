@@ -8,7 +8,7 @@ import java.util.ArrayList;
  */
 public class Product {
 
-     private ArrayList<Part> associatedParts = new ArrayList<Part>();
+     private final ArrayList<Part> associatedParts = new ArrayList<Part>();
      private int productID;
      private String name;
      private double price;
@@ -24,28 +24,53 @@ public class Product {
         this.stock = stock;
         this.min = min;
         this.max = max;
-     }
-
-    public Product(int i, String giant_Bike, double d, int i0, int i1, int i2) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+     }  
+    
+    public void setProductID(int productID) {
+        this.productID = productID;
+    } 
      
-
-
     public int getProductId() {
         return productID;
+    }
+    
+    public void setProductName(String name) {
+        this.name = name;
     }
 
     public String getProductName() {
         return name;
     }
+    
+    public void setProductStock(int stock) {
+        this.stock = stock;
+    }
 
     public int getProductStock() {
         return stock;
+    }
+    
+    public void setProductPrice(double price) {
+        this.price = price;
     }
 
     public double getProductPrice() {
         return price;
     }
     
+    public void setProductMax(int max) {
+        this.max = max;
+    }
+    
+    public double getProductMax() {
+        return max;
+    }
+    
+    public void setProductMin(int min) {
+        this.min = min;
+    }
+    
+    public double getProductMin() {
+        return min;
+    }
 }
