@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" prefHeight="473.0" prefWidth="559.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.modPartController">
+   <children>
+      <Text layoutX="36.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Modify Part" wrappingWidth="92.00238037109375" />
+      <RadioButton fx:id="modPartInHouse" layoutX="156.0" layoutY="26.0" mnemonicParsing="false" onAction="#partTypeChange" text="In-House" />
+      <RadioButton fx:id="modPartOutsourced" layoutX="266.0" layoutY="26.0" mnemonicParsing="false" onAction="#partTypeChange" text="Outsourced" />
+      <GridPane layoutX="28.0" layoutY="69.0" prefHeight="310.0" prefWidth="490.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="120.11114501953125" minWidth="10.0" prefWidth="100.77777777777777" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="188.5555419921875" minWidth="4.7777777777777715" prefWidth="131.11111789279514" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="194.2222137451172" minWidth="10.0" prefWidth="47.999966091579864" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="194.2222137451172" minWidth="10.0" prefWidth="117.33336724175348" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="34.888878716362846" minHeight="10.0" prefHeight="30.444447835286457" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="55.333336724175346" minHeight="10.0" prefHeight="30.111104329427082" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="71.5555657280816" minHeight="10.0" prefHeight="34.55553181966147" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="47.0000237358941" minHeight="10.0" prefHeight="30.55553860134549" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="44.77779473198785" minHeight="10.0" prefHeight="31.444461398654497" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="41.6666497124566" minHeight="10.0" prefHeight="24.00000678168405" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="61.77777777777777" minHeight="10.0" prefHeight="59.55554877387152" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="ID" GridPane.valignment="CENTER" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Inventory" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Price/Cost" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Max" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
+            <Text fx:id="machineIdText" strokeType="OUTSIDE" strokeWidth="0.0" text="Machine ID" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Min" wrappingWidth="23.583740234375" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
+            <Button fx:id="modPartSave" alignment="CENTER" mnemonicParsing="false" onAction="#handleSaveAction" text="Save" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="BOTTOM" />
+            <Button fx:id="modPartCancel" alignment="CENTER" mnemonicParsing="false" onAction="#cancelButtonAction" text="Cancel" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="BOTTOM" />
+            <TextField fx:id="modPartID" disable="true" promptText="Auto gen - Disabled" GridPane.columnIndex="1" />
+            <TextField fx:id="modPartName" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="modPartInv" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="modPartPrice" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="modPartMax" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <TextField fx:id="modPartMachineID" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <TextField fx:id="modPartMin" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+         </children>
+         <padding>
+            <Insets top="1.0" />
+         </padding>
+      </GridPane>
+   </children>
+</AnchorPane>

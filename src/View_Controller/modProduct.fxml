@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" prefHeight="403.0" prefWidth="793.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.modProductController">
+   <children>
+      <SplitPane dividerPositions="0.43091828138163435" layoutX="3.0" layoutY="2.0" prefHeight="504.0" prefWidth="793.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="398.0" prefWidth="325.0">
+               <children>
+                  <GridPane layoutX="35.0" layoutY="113.0" prefHeight="276.0" prefWidth="271.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="ID" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name" GridPane.rowIndex="1" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Inventory" GridPane.rowIndex="2" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Price" GridPane.rowIndex="3" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Max" GridPane.rowIndex="4" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Min" GridPane.rowIndex="5" />
+                        <TextField fx:id="modProdID" disable="true" promptText="Auto Gen - Disabled" GridPane.columnIndex="1" />
+                        <TextField fx:id="modProdName" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField fx:id="modProdInv" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <TextField fx:id="modProdPrice" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <TextField fx:id="modProdMax" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <TextField fx:id="modProdMin" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                     </children>
+                  </GridPane>
+                  <Text layoutX="14.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Modify Product" wrappingWidth="121.7593994140625">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Text>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" prefHeight="398.0" prefWidth="440.0">
+               <children>
+                  <VBox layoutX="9.0" layoutY="3.0" prefHeight="502.0" prefWidth="429.0">
+                     <children>
+                        <SplitPane prefHeight="39.0" prefWidth="429.0">
+                          <items>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="36.0" prefWidth="234.0">
+                                 <children>
+                                    <TextField fx:id="partSearch" layoutX="139.0" layoutY="2.0" onAction="#searchForPart" promptText="Search" />
+                                 </children></AnchorPane>
+                          </items>
+                        </SplitPane>
+                        <TableView fx:id="modProdInStock" prefHeight="209.0" prefWidth="429.0">
+                          <columns>
+                            <TableColumn fx:id="modProdInStockID" prefWidth="75.0" text="PartID" />
+                            <TableColumn fx:id="modProdInStockName" prefWidth="117.33330535888672" text="Part Name" />
+                              <TableColumn fx:id="modProdInStockInv" prefWidth="104.44447326660156" text="Inventory Level" />
+                              <TableColumn fx:id="modProdInStockPrice" prefWidth="132.0" text="Price/Cost per unit" />
+                          </columns>
+                        </TableView>
+                        <ButtonBar prefHeight="40.0" prefWidth="200.0">
+                          <buttons>
+                            <Button fx:id="modProdAdd" mnemonicParsing="false" onAction="#addPartAction" text="Add" />
+                          </buttons>
+                        </ButtonBar>
+                        <TableView fx:id="modProdAssociated" prefHeight="185.0" prefWidth="429.0">
+                          <columns>
+                            <TableColumn fx:id="modProdAID" prefWidth="75.0" text="PartID" />
+                            <TableColumn fx:id="modProdAName" prefWidth="117.33330535888672" text="Part Name" />
+                              <TableColumn fx:id="modProdAInv" prefWidth="107.11109924316406" text="Inventory Level" />
+                              <TableColumn fx:id="modProdAPrice" prefWidth="129.333251953125" text="Price/Cost per unit" />
+                          </columns>
+                        </TableView>
+                        <ButtonBar buttonMinWidth="50.0" prefHeight="40.0" prefWidth="100.0">
+                          <buttons>
+                            <Button fx:id="modProdRemove" mnemonicParsing="false" onAction="#removePartAction" prefHeight="25.0" text="Remove Part" />
+                              <Button fx:id="modProdSave" mnemonicParsing="false" onAction="#handleSaveAction" prefHeight="25.0" text="Save" />
+                              <Button fx:id="modProdCancel" mnemonicParsing="false" onAction="#cancelButtonAction" text="Cancel" />
+                          </buttons>
+                        </ButtonBar>
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>
