@@ -8,6 +8,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+//Javadocs in dist/javadoc
+
 /**
  *
  * @author alect
@@ -23,8 +25,7 @@ public class main extends Application {
      */
     
     @Override
-    public void start(Stage stage) throws IOException{
-        //Inventory inv = new Inventory();
+    public void start(Stage stage) throws IOException{        
         addTestData();
             
         Parent root = FXMLLoader.load(getClass().getResource("/View_Controller/mainScreen.fxml"));
@@ -96,7 +97,5 @@ public class main extends Application {
         
         Inventory.addProduct(prod1);
         Inventory.addProduct(prod2);
-
     }
-    
 }

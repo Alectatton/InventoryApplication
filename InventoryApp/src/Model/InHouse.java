@@ -1,7 +1,4 @@
 package Model;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
 
 /**
  *
@@ -11,6 +8,7 @@ public final class InHouse extends Part {
     
     private int machineID;
     
+    //InHouse Constructor
     public InHouse() {
         
         setId(partID);
@@ -22,10 +20,12 @@ public final class InHouse extends Part {
         setMachineID(machineID);
     }
     
+    //Setter for Machine ID
     public void setMachineID(int id) {
         this.machineID = id;
     }
     
+    //Getter for Machine ID
     public int getMachineID() {
         return machineID;
     }

@@ -21,6 +21,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import View_Controller.MainScreenController;
 import static View_Controller.MainScreenController.getSelectedPart;
+import javafx.scene.control.Alert;
 
 /**
  * FXML Controller class
@@ -84,41 +85,77 @@ public class modPartController implements Initializable {
         min = modPartMin.getText();
         machID = modPartMachineID.getText();
         
-        //Check part type, create a new part and replace information
-        if (isInHouse) {
-            InHouse newPartIn = new InHouse();
+        //Logic to verify no fields are empty
+        if (
+            modPartName.getText().isEmpty() ||
+            modPartInv.getText().isEmpty() ||
+            modPartPrice.getText().isEmpty() ||
+            modPartMax.getText().isEmpty() ||
+            modPartMin.getText().isEmpty() ||
+            modPartMachineID.getText().isEmpty())
+            {
+            Alert nullalert = new Alert(Alert.AlertType.ERROR);
+            nullalert.setTitle("Invalid");
+            nullalert.setContentText("Must fill out all fields!");
+            nullalert.showAndWait();
+        }
         
-            newPartIn.setId(partID);
-            newPartIn.setName(name);
-            newPartIn.setStock(Integer.parseInt(stock));
-            newPartIn.setPrice(Double.parseDouble(price));
-            newPartIn.setMax(Integer.parseInt(max));
-            newPartIn.setMin(Integer.parseInt(min));
-            newPartIn.setMachineID(Integer.parseInt(machID));
+        //Logic to verify max is larger than min
+        else if (Integer.parseInt(max) <= Integer.parseInt(min)) {
+            Alert nullalert = new Alert(Alert.AlertType.ERROR);
+            nullalert.setTitle("Invalid");
+            nullalert.setContentText("Maximum must be larger than minimum!");
+            nullalert.showAndWait();
+        }
+        
+
             
-             //Need to find index to remove part
-            modPart(partID - 1, newPartIn);  
+        //Logic to verify Inventory is between the max and min
+        else if (Integer.parseInt(stock) <= Integer.parseInt(min) || Integer.parseInt(stock) >= Integer.parseInt(max)) {
+            Alert nullalert = new Alert(Alert.AlertType.ERROR);
+            nullalert.setTitle("Invalid");
+            nullalert.setContentText("Inventory must be between maximum and minimum!");
+            nullalert.showAndWait();
         }
         
-        //Same process for outsourced parts
-        else {
-            OutSourced newPartOut = new OutSourced();
-                
-            newPartOut.setId(partID);
-            newPartOut.setName(name);
-            newPartOut.setStock(Integer.parseInt(stock));
-            newPartOut.setPrice(Double.parseDouble(price));
-            newPartOut.setMax(Integer.parseInt(max));
-            newPartOut.setMin(Integer.parseInt(min));
-            newPartOut.setCompanyName(machID);    
+        //Finish function if verified
+        else {           
+            //Check part type, create a new part and replace information
+            if (isInHouse) {
+                InHouse newPartIn = new InHouse();        
+                newPartIn.setId(partID);
+                newPartIn.setName(name);
+                newPartIn.setStock(Integer.parseInt(stock));
+                newPartIn.setPrice(Double.parseDouble(price));
+                newPartIn.setMax(Integer.parseInt(max));
+                newPartIn.setMin(Integer.parseInt(min));
+                newPartIn.setMachineID(Integer.parseInt(machID));
+            
+                //Need to find index to remove part
+                modPart(partID - 1, newPartIn);  
+            }
         
-            modPart(partID - 1, newPartOut);
+            //Same process for outsourced parts
+            else {
+                OutSourced newPartOut = new OutSourced();             
+                newPartOut.setId(partID);
+                newPartOut.setName(name);
+                newPartOut.setStock(Integer.parseInt(stock));
+                newPartOut.setPrice(Double.parseDouble(price));
+                newPartOut.setMax(Integer.parseInt(max));
+                newPartOut.setMin(Integer.parseInt(min));
+                newPartOut.setCompanyName(machID);            
+                modPart(partID - 1, newPartOut);
+            }
+        
+            //Return to the main screen
+            Parent loader = FXMLLoader.load(getClass().getResource("mainScreen.fxml"));
+            Scene scene = new Scene(loader);
+            Stage window = (Stage) modPartSave.getScene().getWindow();
+            window.setScene(scene);
+            window.show();
         }
-        Parent loader = FXMLLoader.load(getClass().getResource("mainScreen.fxml"));
-        Scene scene = new Scene(loader);
-        Stage window = (Stage) modPartSave.getScene().getWindow();
-        window.setScene(scene);
-        window.show();
+    
     } 
     
     //Cancel returns to the main screen without making changes
@@ -144,23 +181,24 @@ public class modPartController implements Initializable {
         modPartOutsourced.setToggleGroup(partType);  
         
         Part selectedPart = getSelectedPart();
-        int partID = getSelectedPart().getId();
+        int ID = getSelectedPart().getId();
         
-        modPartID.setText("Auto Gen - " + partID);
+        modPartID.setText("Auto Gen - " + ID);
         modPartName.setText(selectedPart.getName()); 
         modPartInv.setText(Integer.toString(selectedPart.getStock()));
         modPartPrice.setText(Double.toString(selectedPart.getPrice()));
         modPartMax.setText(Integer.toString(selectedPart.getMax()));
         modPartMin.setText(Integer.toString(selectedPart.getMin()));
         
-        if (isInHouse) {
+        if (selectedPart instanceof InHouse) {
             modPartInHouse.setSelected(true);
             machineIdText.setText("Machine ID");
-            //modPartMachineID.setText(selectedPart.getMachineID);
+            modPartMachineID.setText(Integer.toString(((InHouse)selectedPart).getMachineID()));
         }
         else {
             modPartOutsourced.setSelected(true);
             machineIdText.setText("Company");
+            modPartMachineID.setText(((OutSourced)selectedPart).getCompanyName());
         }
     }       
 }

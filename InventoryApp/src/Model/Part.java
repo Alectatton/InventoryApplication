@@ -6,6 +6,7 @@ package Model;
  */
 public abstract class Part {
     
+    //Variables for the part class
     public int partID;
     public String name;
     public double price;
@@ -13,6 +14,7 @@ public abstract class Part {
     public int max;
     public int min;
     
+    //Constructor for the part class
     public Part() {
         this.partID = partID;
         this.name = name;

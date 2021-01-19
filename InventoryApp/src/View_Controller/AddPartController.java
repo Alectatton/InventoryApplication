@@ -1,11 +1,9 @@
 package View_Controller;
 
 import Model.InHouse;
-import Model.Part;
 import Model.Inventory;
 import static Model.Inventory.addPart;
 import Model.OutSourced;
-import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -14,8 +12,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
@@ -58,6 +56,7 @@ public class AddPartController implements Initializable {
     String machID;
     int partID;
     
+    //Handle changing of radio buttons
     @FXML
     public void partTypeChange() {
         if(this.partType.getSelectedToggle().equals(this.addPartInHouse)) {
@@ -70,51 +69,90 @@ public class AddPartController implements Initializable {
         }
     }
     
+    //Add part to inventory on save action
     @FXML
     void handleSaveAction() throws IOException {
         
+        //Set variables to text fields
         name = addPartName.getText();
         stock = addPartInv.getText();
         price = addPartPrice.getText();
         max = addPartMax.getText();
         min = addPartMin.getText();
         machID = addPartMachineID.getText();
-
-        
-        if (isInHouse) {
-            InHouse newPartIn = new InHouse();
-        
-            newPartIn.setId(partID);
-            newPartIn.setName(name);
-            newPartIn.setStock(Integer.parseInt(stock));
-            newPartIn.setPrice(Double.parseDouble(price));
-            newPartIn.setMax(Integer.parseInt(max));
-            newPartIn.setMin(Integer.parseInt(min));
-            newPartIn.setMachineID(Integer.parseInt(machID));
-            
-            addPart(newPartIn);  
+       
+        //Logic to verify no fields are empty
+        if (
+            addPartName.getText().isEmpty() ||
+            addPartInv.getText().isEmpty() ||
+            addPartPrice.getText().isEmpty() ||
+            addPartMax.getText().isEmpty() ||
+            addPartMin.getText().isEmpty() ||
+            addPartMachineID.getText().isEmpty()) 
+            {
+            Alert nullalert = new Alert(Alert.AlertType.ERROR);
+            nullalert.setTitle("Invalid");
+            nullalert.setContentText("Must fill out all fields!");
+            nullalert.showAndWait();
         }
         
-        else {
-            OutSourced newPartOut = new OutSourced();
+        //Logic to verify max is larger than min
+        else if (Integer.parseInt(max) <= Integer.parseInt(min)) {
+            Alert nullalert = new Alert(Alert.AlertType.ERROR);
+            nullalert.setTitle("Invalid");
+            nullalert.setContentText("Maximum must be larger than minimum!");
+            nullalert.showAndWait();
+        }
                 
-            newPartOut.setId(partID);
-            newPartOut.setName(name);
-            newPartOut.setStock(Integer.parseInt(stock));
-            newPartOut.setPrice(Double.parseDouble(price));
-            newPartOut.setMax(Integer.parseInt(max));
-            newPartOut.setMin(Integer.parseInt(min));
-            newPartOut.setCompanyName(machID);    
-        
-            addPart(newPartOut);
+        //Logic to verify Inventory is between the max and min
+        else if (Integer.parseInt(stock) <= Integer.parseInt(min) || Integer.parseInt(stock) >= Integer.parseInt(max)) {
+            Alert nullalert = new Alert(Alert.AlertType.ERROR);
+            nullalert.setTitle("Invalid");
+            nullalert.setContentText("Inventory must be between maximum and minimum!");
+            nullalert.showAndWait();
         }
-        Parent loader = FXMLLoader.load(getClass().getResource("mainScreen.fxml"));
-        Scene scene = new Scene(loader);
-        Stage window = (Stage) addPartSave.getScene().getWindow();
-        window.setScene(scene);
-        window.show();
+        
+        //Finish function if verified
+        else {
+            
+            //Check part type
+            if (isInHouse) {
+                InHouse newPartIn = new InHouse();
+        
+                newPartIn.setId(partID);
+                newPartIn.setName(name);
+                newPartIn.setStock(Integer.parseInt(stock));
+                newPartIn.setPrice(Double.parseDouble(price));
+                newPartIn.setMax(Integer.parseInt(max));
+                newPartIn.setMin(Integer.parseInt(min));
+                newPartIn.setMachineID(Integer.parseInt(machID));
+            
+                addPart(newPartIn);  
+            }
+            else {
+                OutSourced newPartOut = new OutSourced();
+                
+                newPartOut.setId(partID);
+                newPartOut.setName(name);
+                newPartOut.setStock(Integer.parseInt(stock));
+                newPartOut.setPrice(Double.parseDouble(price));
+                newPartOut.setMax(Integer.parseInt(max));
+                newPartOut.setMin(Integer.parseInt(min));
+                newPartOut.setCompanyName(machID);    
+        
+                addPart(newPartOut);
+            }
+        
+            //Return to the main screen
+            Parent loader = FXMLLoader.load(getClass().getResource("mainScreen.fxml"));
+            Scene scene = new Scene(loader);
+            Stage window = (Stage) addPartSave.getScene().getWindow();
+            window.setScene(scene);
+            window.show();
+        }
     } 
     
+    //Return to the main screen on cancel button action
     @FXML  
     public void cancelButtonAction() throws IOException{
         Parent loader = FXMLLoader.load(getClass().getResource("mainScreen.fxml"));
@@ -129,16 +167,12 @@ public class AddPartController implements Initializable {
      * @param rb
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        
+    public void initialize(URL url, ResourceBundle rb) {        
         partType = new ToggleGroup();
         addPartInHouse.setToggleGroup(partType);
         addPartOutsourced.setToggleGroup(partType);
         addPartInHouse.setSelected(true);
-        machineIdText.setText("Machine ID");
-        
-        partID = Inventory.getPartIDCount();
-        
-    }    
-    
+        machineIdText.setText("Machine ID");        
+        partID = Inventory.getNewPartID();        
+    }        
 }

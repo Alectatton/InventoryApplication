@@ -1,6 +1,8 @@
 package Model;
 
 import java.util.ArrayList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -8,7 +10,8 @@ import java.util.ArrayList;
  */
 public class Product {
 
-     private final ArrayList<Part> associatedParts = new ArrayList<Part>();
+     public static ObservableList<Part> associatedParts = FXCollections.observableArrayList();
+
      private int productID;
      private String name;
      private double price;
@@ -17,6 +20,7 @@ public class Product {
      private int max;
      private double cost;
      
+     //Constructor for product
      public Product() {
         this.productID = productID;
         this.name = name;
@@ -26,51 +30,130 @@ public class Product {
         this.max = max;
      }  
     
+     /**
+     * @param productID
+     */
     public void setProductID(int productID) {
         this.productID = productID;
     } 
      
+    /**
+     *
+     * @return product ID
+     */
     public int getProductId() {
         return productID;
     }
     
+    /**
+     *
+     * @param name
+     */
     public void setProductName(String name) {
         this.name = name;
     }
 
+    /**
+     *
+     * @return product name
+     */
     public String getProductName() {
         return name;
     }
     
+    /**
+     *
+     * @param stock
+     */
     public void setProductStock(int stock) {
         this.stock = stock;
     }
 
+    /**
+     *
+     * @return product stock
+     */
     public int getProductStock() {
         return stock;
     }
     
+    /**
+     *
+     * @param price
+     */
     public void setProductPrice(double price) {
         this.price = price;
     }
 
+    /**
+     *
+     * @return product price
+     */
     public double getProductPrice() {
         return price;
     }
     
+    /**
+     *
+     * @param max
+     */
     public void setProductMax(int max) {
         this.max = max;
     }
     
-    public double getProductMax() {
+    /**
+     *
+     * @return product max
+     */
+    public int getProductMax() {
         return max;
     }
     
+    /**
+     *
+     * @param min
+     */
     public void setProductMin(int min) {
         this.min = min;
     }
     
-    public double getProductMin() {
+    /**
+     *
+     * @return product min
+     */
+    public int getProductMin() {
         return min;
     }
+    
+    /**
+     *
+     * @return associated parts list
+     */
+    public static ObservableList getAssociated() {
+        return associatedParts;
+    }
+    
+    /**
+     */
+    public static void setAssociated() {
+        Product.associatedParts = associatedParts;
+    }
+    
+    /**
+     *
+     * @param part
+     */
+    public static void addAssociated(Part part) {
+        associatedParts.add(part);
+    }
+    
+    /**
+     *
+     * @param part
+     */
+    public static void removeAssociated(Part part) {
+        associatedParts.remove(part);
+    }
+
 }
+

@@ -19,11 +19,15 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage; 
 import Model.Inventory;
+import static Model.Inventory.allParts;
+import static Model.Inventory.products;
 import static Model.Inventory.getParts;
 import static Model.Inventory.getProducts;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
         
 
 /**
@@ -64,6 +68,7 @@ public class MainScreenController implements Initializable {
     @FXML private Button exitButton;
     @FXML private Inventory inv;
     private static Part selectedPart;
+    private static Product selectedProduct;
 
    
      /* Initializes the controller class.
@@ -71,21 +76,29 @@ public class MainScreenController implements Initializable {
    public MainScreenController() {
    }
    
-   /*
+    /*
+    Search for part on enter button click using part ID or part Name
+    */
    @FXML
    private void searchForPart() {
-       if(!partSearch.getText().trim().isEmpty()) {
-           partsInventorySearch.clear();
-           for (Part p : inv.getParts()) {
-               if (p.getName().contains(partSearch.getText().trim())) {
-                   partsInventoySearch.add(p);
+       if(partSearch.getText().trim().isEmpty()) { 
+           partsTable.setItems(allParts);
+       }
+       else {
+           partInventorySearch.clear();
+           for (Part p : Inventory.allParts) {
+               if (p.getName().contains(partSearch.getText().trim())
+                   ||
+                   String.valueOf(p.getId()).equals(partSearch.getText().trim()))                    
+               {
+                   partInventorySearch.add(p);
                }
            }
-           partsTable.setItems(partsInventorySearch);
-           partsTable.refresh();
+            partsTable.setItems(partInventorySearch);
+            partsTable.refresh();                       
        }
    }
-   */
+   
     /*
     Change screen to the add part screen on add part button click
     */
@@ -102,14 +115,18 @@ public class MainScreenController implements Initializable {
     Change screen to the modify part screen on modify part button click
     */
     @FXML  
-    public void modPartsScreen() throws IOException{
-        selectedPart = partsTable.getSelectionModel().getSelectedItem();
-        
+    public void modPartsScreen() throws IOException{    
+        selectedPart = partsTable.getSelectionModel().getSelectedItem();        
+        if (selectedPart == null) {
+            noSelectionAlert();
+        }        
+        else {
         Parent loader = FXMLLoader.load(getClass().getResource("modPart.fxml"));
         Scene scene = new Scene(loader);
         Stage window = (Stage) partMod.getScene().getWindow();
         window.setScene(scene);
         window.show();
+        }
     }
     
     /*
@@ -117,9 +134,37 @@ public class MainScreenController implements Initializable {
     */
     @FXML
     public void deleteButtonAction() {
-        Part part = partsTable.getSelectionModel().getSelectedItem();
+        Part part = partsTable.getSelectionModel().getSelectedItem();       
+        if (part == null) {
+            noSelectionAlert();
+        }
+        else {
         Inventory.removePart(part.getId());
+        }
     }
+    
+    /*
+    Search for product on enter button click using part ID or part Name
+    */
+   @FXML
+   private void searchForProduct() {
+       if(productSearch.getText().trim().isEmpty()) { 
+           productTable.setItems(products);
+       }
+       else {
+           prodInventorySearch.clear();
+           for (Product p : Inventory.products) {
+               if (p.getProductName().contains(productSearch.getText().trim())
+                   ||
+                   String.valueOf(p.getProductId()).equals(productSearch.getText().trim()))                    
+               {
+                   prodInventorySearch.add(p);
+               }
+           }
+            productTable.setItems(prodInventorySearch);
+            productTable.refresh();                       
+       }
+   }
     
     /*
     Change screen to the add product screen on add porduct button click
@@ -138,23 +183,40 @@ public class MainScreenController implements Initializable {
     */
     @FXML  
     public void modProductScreen() throws IOException{
-        selectedPart = partsTable.getSelectionModel().getSelectedItem();
+        selectedProduct = productTable.getSelectionModel().getSelectedItem();
+        if (selectedProduct == null) {
+            noSelectionAlert();
+        }
+        else {
         Parent loader = FXMLLoader.load(getClass().getResource("modProduct.fxml"));
         Scene scene = new Scene(loader);
         Stage window = (Stage) productMod.getScene().getWindow();
         window.setTitle("Modify Product");
         window.setScene(scene);
         window.show();
+        }
     }
     
+    //Method to return the selected part
     public static Part getSelectedPart() {
         return selectedPart;
     }
     
+    //Method to return the selected product
+    public static Product getSelectedProduct() {
+        return selectedProduct;
+    }
+    
+    //Method to delete the selected product
     @FXML
     public void deleteProductAction() {
         Product product = productTable.getSelectionModel().getSelectedItem();
+        if (product == null) {
+            noSelectionAlert();
+        }
+        else {
         Inventory.removeProduct(product.getProductId());
+        }
     }
     
     /*
@@ -179,18 +241,27 @@ public class MainScreenController implements Initializable {
         productCostCol.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getProductPrice()).asObject());
         
         updatePartsTable();
-        updateProductsTable();
-            
+        updateProductsTable();     
     }
     
+    //Method to update the parts table
     @FXML
     public void updatePartsTable() {
         partsTable.setItems(getParts());
     }
 
+    //Method to update the products table
     @FXML
     public void updateProductsTable() {
         productTable.setItems(getProducts());
+    }
+    
+    //Method to show a no selection alert
+    private void noSelectionAlert() {
+        Alert nullalert = new Alert(AlertType.ERROR);
+        nullalert.setTitle("No Selection");
+        nullalert.setContentText("You must make a selection before you can do this action");
+        nullalert.showAndWait();
     }
     
 }
