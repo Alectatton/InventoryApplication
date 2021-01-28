@@ -1,7 +1,6 @@
 package View_Controller;
 
 import Model.InHouse;
-import static Model.Inventory.addPart;
 import static Model.Inventory.modPart;
 import Model.OutSourced;
 import Model.Part;
@@ -19,7 +18,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import View_Controller.MainScreenController;
 import static View_Controller.MainScreenController.getSelectedPart;
 import javafx.scene.control.Alert;
 
@@ -59,7 +57,9 @@ public class modPartController implements Initializable {
     String machID;
     int partID;
 
-    //Handle changing the part type
+    /**
+     * Handle changing the part type
+     */
     @FXML
     public void partTypeChange() {
         if(this.partType.getSelectedToggle().equals(this.modPartInHouse)) {
@@ -72,7 +72,9 @@ public class modPartController implements Initializable {
         }
     }
     
-    //Handle saving the modified part
+    /*
+    * Handle saving the modified part
+    */
     @FXML
     void handleSaveAction() throws IOException {
         
@@ -85,80 +87,90 @@ public class modPartController implements Initializable {
         min = modPartMin.getText();
         machID = modPartMachineID.getText();
         
-        //Logic to verify no fields are empty
-        if (
-            modPartName.getText().isEmpty() ||
-            modPartInv.getText().isEmpty() ||
-            modPartPrice.getText().isEmpty() ||
-            modPartMax.getText().isEmpty() ||
-            modPartMin.getText().isEmpty() ||
-            modPartMachineID.getText().isEmpty())
-            {
-            Alert nullalert = new Alert(Alert.AlertType.ERROR);
-            nullalert.setTitle("Invalid");
-            nullalert.setContentText("Must fill out all fields!");
-            nullalert.showAndWait();
-        }
-        
-        //Logic to verify max is larger than min
-        else if (Integer.parseInt(max) <= Integer.parseInt(min)) {
-            Alert nullalert = new Alert(Alert.AlertType.ERROR);
-            nullalert.setTitle("Invalid");
-            nullalert.setContentText("Maximum must be larger than minimum!");
-            nullalert.showAndWait();
-        }
-        
-
-            
-        //Logic to verify Inventory is between the max and min
-        else if (Integer.parseInt(stock) <= Integer.parseInt(min) || Integer.parseInt(stock) >= Integer.parseInt(max)) {
-            Alert nullalert = new Alert(Alert.AlertType.ERROR);
-            nullalert.setTitle("Invalid");
-            nullalert.setContentText("Inventory must be between maximum and minimum!");
-            nullalert.showAndWait();
-        }
-        
-        //Finish function if verified
-        else {           
-            //Check part type, create a new part and replace information
-            if (isInHouse) {
-                InHouse newPartIn = new InHouse();        
-                newPartIn.setId(partID);
-                newPartIn.setName(name);
-                newPartIn.setStock(Integer.parseInt(stock));
-                newPartIn.setPrice(Double.parseDouble(price));
-                newPartIn.setMax(Integer.parseInt(max));
-                newPartIn.setMin(Integer.parseInt(min));
-                newPartIn.setMachineID(Integer.parseInt(machID));
-            
-                //Need to find index to remove part
-                modPart(partID - 1, newPartIn);  
+        try{
+            //Logic to verify no fields are empty
+            if (
+                modPartName.getText().isEmpty() ||
+                modPartInv.getText().isEmpty() ||
+                modPartPrice.getText().isEmpty() ||
+                modPartMax.getText().isEmpty() ||
+                modPartMin.getText().isEmpty() ||
+                modPartMachineID.getText().isEmpty())
+                {
+                Alert nullalert = new Alert(Alert.AlertType.ERROR);
+                nullalert.setTitle("Invalid");
+                nullalert.setContentText("Must fill out all fields!");
+                nullalert.showAndWait();
             }
         
-            //Same process for outsourced parts
-            else {
-                OutSourced newPartOut = new OutSourced();             
-                newPartOut.setId(partID);
-                newPartOut.setName(name);
-                newPartOut.setStock(Integer.parseInt(stock));
-                newPartOut.setPrice(Double.parseDouble(price));
-                newPartOut.setMax(Integer.parseInt(max));
-                newPartOut.setMin(Integer.parseInt(min));
-                newPartOut.setCompanyName(machID);            
-                modPart(partID - 1, newPartOut);
+            //Logic to verify max is larger than min
+            else if (Integer.parseInt(max) <= Integer.parseInt(min)) {
+                Alert nullalert = new Alert(Alert.AlertType.ERROR);
+                nullalert.setTitle("Invalid");
+                nullalert.setContentText("Maximum must be larger than minimum!");
+                nullalert.showAndWait();
+            }
+            
+            //Logic to verify Inventory is between the max and min
+            else if (Integer.parseInt(stock) <= Integer.parseInt(min) || Integer.parseInt(stock) >= Integer.parseInt(max)) {
+                Alert nullalert = new Alert(Alert.AlertType.ERROR);
+                nullalert.setTitle("Invalid");
+                nullalert.setContentText("Inventory must be between maximum and minimum!");
+                nullalert.showAndWait();
             }
         
-            //Return to the main screen
-            Parent loader = FXMLLoader.load(getClass().getResource("mainScreen.fxml"));
-            Scene scene = new Scene(loader);
-            Stage window = (Stage) modPartSave.getScene().getWindow();
-            window.setScene(scene);
-            window.show();
+            //Finish function if verified
+            else {           
+                //Check part type, create a new part and replace information
+                if (isInHouse) {
+                    InHouse newPartIn = new InHouse();        
+                    newPartIn.setId(partID);
+                    newPartIn.setName(name);
+                    newPartIn.setStock(Integer.parseInt(stock));
+                    newPartIn.setPrice(Double.parseDouble(price));
+                    newPartIn.setMax(Integer.parseInt(max));
+                    newPartIn.setMin(Integer.parseInt(min));
+                    newPartIn.setMachineID(Integer.parseInt(machID));
+            
+                    //Need to find index to remove part
+                    modPart(partID - 1, newPartIn);  
+                }
+        
+                //Same process for outsourced parts
+                else {
+                    OutSourced newPartOut = new OutSourced();             
+                    newPartOut.setId(partID);
+                    newPartOut.setName(name);
+                    newPartOut.setStock(Integer.parseInt(stock));
+                    newPartOut.setPrice(Double.parseDouble(price));
+                    newPartOut.setMax(Integer.parseInt(max));
+                    newPartOut.setMin(Integer.parseInt(min));
+                    newPartOut.setCompanyName(machID);            
+                    modPart(partID - 1, newPartOut);
+                }
+        
+                //Return to the main screen
+                Parent loader = FXMLLoader.load(getClass().getResource("mainScreen.fxml"));
+                Scene scene = new Scene(loader);
+                Stage window = (Stage) modPartSave.getScene().getWindow();
+                window.setScene(scene);
+                window.show();
+            }
+        }
+        
+        //catch for type errors
+        catch (IOException | NumberFormatException e) {
+            Alert nullalert = new Alert(Alert.AlertType.ERROR);
+            nullalert.setTitle("Type error");
+            nullalert.setContentText("Verify that all fields are the correct data type");
+            nullalert.showAndWait();
         }
     
     } 
     
-    //Cancel returns to the main screen without making changes
+    /*
+    * Method to handle the cancel button action, returns to the main screen
+    */
     @FXML  
     public void cancelButtonAction() throws IOException{
         Parent loader = FXMLLoader.load(getClass().getResource("mainScreen.fxml"));

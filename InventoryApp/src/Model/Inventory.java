@@ -8,63 +8,102 @@ import javafx.collections.ObservableList;
  * @author alect
  */
 public class Inventory {
-   
-    //Initialize variables
+
     public static final ObservableList<Product> products = FXCollections.observableArrayList();
     public static final ObservableList<Part> allParts = FXCollections.observableArrayList();
     private static int partID;
+    private String partName;
    
-    //Constructor
+    /*
+    Empty Constructor for inventory class
+    */
     public Inventory() {
     }
-    
-    //Add part method
+
+    /**
+     *
+     * @param part add part to inventory
+     */
     public static void addPart(Part part) {
         allParts.addAll(part);
     }
     
-    //Remove part Method
-    public static void removePart(int partID) {
+    /**
+     *
+     * @param part remove part from inventory
+     * @return true if part removed
+     */
+    public static boolean deletePart(Part part) {
         for (Part i : allParts) {
-            if (i.getId() == partID)
+            if (i.getId() == part.getId()) {
                 allParts.remove(i);
+                return true;
+            }
         }
+        return false;
     }
     
-    //Modify Part method
+    /**
+     *
+     * @param i ID of part being modified
+     * @param part part being modified
+     */
     public static void modPart(int i, Part part) {
         allParts.set(i, part);
     }
     
-    //List with all parts
+    /**
+     *
+     * @return list of all parts
+     */
     public static ObservableList<Part> getParts() {
         return allParts;
     }
 
-    //Method to add a new product
+    /**
+     *
+     * @param product add product to inventory
+     */
     public static void addProduct(Product product) {
         products.add(product);
     }
     
-    //Method to remove a product
-    public static void removeProduct(int productID) {
+    /**
+     *
+     * @param product remove product from inventory
+     * @return true if removed
+     */
+    public static boolean deleteProduct(Product product) {
         for (Product i : products) {
-            if (i.getProductId() == productID)
+            if (i.getProductId() == product.getProductId()) {
                 products.remove(i);
+                return true;
+            }
         }
+        return false;
     }
     
-    //Method to modify an existing product
+    /**
+     *
+     * @param i ID of product to be modified
+     * @param product modify product
+     */
     public static void modProduct(int i, Product product) {
         products.set(i, product);
     }
-    
-    //List with all of the products
+
+    /**
+     *
+     * @return all products in inventory
+     */
     public static ObservableList<Product> getProducts() {
         return products;
     }
     
-    //Generate a unique Part ID
+    /**
+     *
+     * @return generates a new and unique part ID
+     */
     public static int getNewPartID() {
         int newID = 1;
         for (Part p : Inventory.allParts) {
@@ -75,7 +114,11 @@ public class Inventory {
         return newID;
     }
     
-    //Generate a unique Product ID
+
+     /**
+     *
+     * @return generates a new and unique product ID
+     */
     public static int getNewProdID() {
         int newID = 1001;
         for (Product p : Inventory.products) {
@@ -85,5 +128,39 @@ public class Inventory {
         }
         return newID;
     }
-   
+    
+    /**
+     *
+     * @param partName input to be searched
+     * @return parts with a matching Name or ID
+     */
+    public static Part lookupPart(String partName) {
+           for (Part p : Inventory.allParts) {
+               if (p.getName().contains(partName)
+                   ||
+                   String.valueOf(p.getId()).equals(partName))                    
+               {
+                   return p;
+               }
+           }                     
+        return null;
+       }
+    
+    /**
+     *
+     * @param productName input to be searched
+     * @return products with a matching Name or ID
+     */
+    public static Product lookupProduct(String productName) {
+           for (Product p : Inventory.products) {
+               if (p.getProductName().contains(productName)
+                   ||
+                   String.valueOf(p.getProductId()).equals(productName))                    
+               {
+                   return p;
+               }
+           }                     
+        return null;
+       }   
+    
 }

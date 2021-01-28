@@ -8,7 +8,9 @@ public final class InHouse extends Part {
     
     private int machineID;
     
-    //InHouse Constructor
+    /*
+    InHouse Constructor
+    */
     public InHouse() {
         
         setId(partID);
@@ -20,12 +22,18 @@ public final class InHouse extends Part {
         setMachineID(machineID);
     }
     
-    //Setter for Machine ID
+    /**
+     *
+     * @param id set the machine ID
+     */
     public void setMachineID(int id) {
         this.machineID = id;
     }
     
-    //Getter for Machine ID
+    /**
+     *
+     * @return return the machine ID
+     */
     public int getMachineID() {
         return machineID;
     }

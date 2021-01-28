@@ -23,6 +23,8 @@ import static Model.Inventory.allParts;
 import static Model.Inventory.products;
 import static Model.Inventory.getParts;
 import static Model.Inventory.getProducts;
+import static Model.Inventory.lookupPart;
+import static Model.Inventory.lookupProduct;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -36,7 +38,7 @@ import javafx.scene.control.Alert.AlertType;
  * @author alect
  */
 public class MainScreenController implements Initializable {
-
+    
     @FXML private AnchorPane scrMain;
     
     //Parts
@@ -50,7 +52,7 @@ public class MainScreenController implements Initializable {
     @FXML private Button partMod;
     @FXML private TextField partSearch;
     @FXML private final ObservableList<Part> partInventory = FXCollections.observableArrayList();
-    @FXML private final ObservableList<Part> partInventorySearch = FXCollections.observableArrayList();
+    @FXML private final ObservableList<Part> lookupPart = FXCollections.observableArrayList();
     
     //Products
     @FXML private TableView<Product> productTable;
@@ -63,40 +65,46 @@ public class MainScreenController implements Initializable {
     @FXML private Button productMod;
     @FXML private TextField productSearch;
     @FXML private final ObservableList<Product> prodInventory = FXCollections.observableArrayList();
-    @FXML private final ObservableList<Product> prodInventorySearch = FXCollections.observableArrayList();
+    @FXML private final ObservableList<Product> lookupProduct = FXCollections.observableArrayList();
     
     @FXML private Button exitButton;
     @FXML private Inventory inv;
+    public static ObservableList<Part> selectedAssocPart = FXCollections.observableArrayList();
     private static Part selectedPart;
     private static Product selectedProduct;
+    
 
    
-     /* Initializes the controller class.
-     */
-   public MainScreenController() {
-   }
+    /* Initializes the controller class.
+    */
+    public MainScreenController() {
+    }
    
     /*
     Search for part on enter button click using part ID or part Name
     */
    @FXML
    private void searchForPart() {
-       if(partSearch.getText().trim().isEmpty()) { 
-           partsTable.setItems(allParts);
-       }
-       else {
-           partInventorySearch.clear();
-           for (Part p : Inventory.allParts) {
-               if (p.getName().contains(partSearch.getText().trim())
-                   ||
-                   String.valueOf(p.getId()).equals(partSearch.getText().trim()))                    
-               {
-                   partInventorySearch.add(p);
-               }
-           }
-            partsTable.setItems(partInventorySearch);
-            partsTable.refresh();                       
-       }
+        String partName = partSearch.getText().trim();  
+        
+        if (partSearch.getText().trim().isEmpty()) {
+            partsTable.setItems(allParts);
+        }       
+        else {
+            Part newPart = lookupPart(partName);
+            if (newPart == null) {
+                Alert nullalert = new Alert(AlertType.ERROR);
+                nullalert.setTitle("No results");
+                nullalert.setContentText("No search results found");
+                nullalert.showAndWait();
+            }
+            else {
+                lookupPart.clear();
+                lookupPart.add(newPart);
+                partsTable.setItems(lookupPart);
+                partsTable.refresh();
+            }
+        }
    }
    
     /*
@@ -139,7 +147,15 @@ public class MainScreenController implements Initializable {
             noSelectionAlert();
         }
         else {
-        Inventory.removePart(part.getId());
+            try {
+                Inventory.deletePart(part);
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Success!");
+                alert.setContentText("Selected part deleted from the inventory");
+                alert.showAndWait();
+            }
+            catch (Exception e) {                
+            }
         }
     }
     
@@ -148,22 +164,25 @@ public class MainScreenController implements Initializable {
     */
    @FXML
    private void searchForProduct() {
-       if(productSearch.getText().trim().isEmpty()) { 
-           productTable.setItems(products);
-       }
-       else {
-           prodInventorySearch.clear();
-           for (Product p : Inventory.products) {
-               if (p.getProductName().contains(productSearch.getText().trim())
-                   ||
-                   String.valueOf(p.getProductId()).equals(productSearch.getText().trim()))                    
-               {
-                   prodInventorySearch.add(p);
-               }
-           }
-            productTable.setItems(prodInventorySearch);
-            productTable.refresh();                       
-       }
+        String productName = productSearch.getText().trim();         
+        if (productSearch.getText().trim().isEmpty()) {
+            productTable.setItems(products);
+        }       
+        else {
+            Product newProd = lookupProduct(productName);
+            if (newProd == null) {
+                Alert nullalert = new Alert(AlertType.ERROR);
+                nullalert.setTitle("No results");
+                nullalert.setContentText("No search results found");
+                nullalert.showAndWait();
+            }
+            else {
+                lookupProduct.clear();
+                lookupProduct.add(newProd);
+                productTable.setItems(lookupProduct);
+                productTable.refresh();
+            }
+        }
    }
     
     /*
@@ -179,7 +198,9 @@ public class MainScreenController implements Initializable {
     }
     
     /*
-    Change screen to the modify product screen on modify product button click
+    * Change screen to the modify product screen on modify product button click
+    *
+    * 
     */
     @FXML  
     public void modProductScreen() throws IOException{
@@ -188,26 +209,32 @@ public class MainScreenController implements Initializable {
             noSelectionAlert();
         }
         else {
-        Parent loader = FXMLLoader.load(getClass().getResource("modProduct.fxml"));
-        Scene scene = new Scene(loader);
-        Stage window = (Stage) productMod.getScene().getWindow();
-        window.setTitle("Modify Product");
-        window.setScene(scene);
-        window.show();
+            Parent loader = FXMLLoader.load(getClass().getResource("modProduct.fxml"));
+            Scene scene = new Scene(loader);
+            Stage window = (Stage) productMod.getScene().getWindow();
+            window.setTitle("Modify Product");
+            window.setScene(scene);
+            window.show();
         }
     }
     
-    //Method to return the selected part
+    /*
+    *Method to return the selected part
+    */
     public static Part getSelectedPart() {
         return selectedPart;
     }
     
-    //Method to return the selected product
+    /*
+    * Method to return the selected product
+    */
     public static Product getSelectedProduct() {
         return selectedProduct;
     }
     
-    //Method to delete the selected product
+    /*
+    * Method to delete the selected product
+    */
     @FXML
     public void deleteProductAction() {
         Product product = productTable.getSelectionModel().getSelectedItem();
@@ -215,12 +242,20 @@ public class MainScreenController implements Initializable {
             noSelectionAlert();
         }
         else {
-        Inventory.removeProduct(product.getProductId());
+            try {
+                Inventory.deleteProduct(product);
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Success!");
+                alert.setContentText("Selected product deleted from the inventory");
+                alert.showAndWait();
+            }
+            catch (Exception e) {               
+            }
         }
     }
     
     /*
-    Exit application on exit button action
+    * Exit application on exit button action
     */
     @FXML
     public void handleCloseButtonAction() {
@@ -228,6 +263,11 @@ public class MainScreenController implements Initializable {
         stage.close();
 }
     
+    /**
+    * Initializes the controller class.
+    * @param url
+    * @param rb
+    */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         partIDCol.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getId()).asObject());
@@ -240,23 +280,29 @@ public class MainScreenController implements Initializable {
         productInvCol.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getProductStock()).asObject());
         productCostCol.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getProductPrice()).asObject());
         
-        updatePartsTable();
+        updatePartsTable(); 
         updateProductsTable();     
     }
     
-    //Method to update the parts table
+    /*
+    * Method to update the parts table
+    */
     @FXML
     public void updatePartsTable() {
         partsTable.setItems(getParts());
     }
 
-    //Method to update the products table
+    /*
+    * Method to update the products table
+    */
     @FXML
     public void updateProductsTable() {
         productTable.setItems(getProducts());
     }
     
-    //Method to show a no selection alert
+    /*
+    * Method to show a no selection alert
+    */
     private void noSelectionAlert() {
         Alert nullalert = new Alert(AlertType.ERROR);
         nullalert.setTitle("No Selection");

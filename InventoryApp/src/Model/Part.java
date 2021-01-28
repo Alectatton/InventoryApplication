@@ -14,7 +14,9 @@ public abstract class Part {
     public int max;
     public int min;
     
-    //Constructor for the part class
+    /*
+    Constructor for the part class
+    */
     public Part() {
         this.partID = partID;
         this.name = name;

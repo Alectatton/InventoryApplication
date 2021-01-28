@@ -8,41 +8,39 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-//Javadocs in dist/javadoc
-
-/**
+/*
+ * Javadocs in dist/javadoc folder
  *
  * @author alect
  */
 public class main extends Application {
     
+    /**
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         launch(args);
     }
     
     /**
      * @param stage
+     * @throws java.io.IOException
      */
     
     @Override
     public void start(Stage stage) throws IOException{        
-        addTestData();
-            
-        Parent root = FXMLLoader.load(getClass().getResource("/View_Controller/mainScreen.fxml"));
-        
+        addTestData();           
+        Parent root = FXMLLoader.load(getClass().getResource("/View_Controller/mainScreen.fxml"));        
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setTitle("Inventory Management System");
         stage.setResizable(false);
         stage.show();   
     }
-    
-    /**
-     * @param args 
-     */
-
 
     void addTestData() {
+        
         //Add Parts
         InHouse p1 = new InHouse();
         OutSourced p2 = new OutSourced();
@@ -75,8 +73,7 @@ public class main extends Application {
         Inventory.addPart(p1);
         Inventory.addPart(p2);
         Inventory.addPart(p3);
-
-        
+     
         //Add Products
         Product prod1 = new Product();
         Product prod2 = new Product();
@@ -85,8 +82,10 @@ public class main extends Application {
         prod1.setProductName("Giant Bike");
         prod1.setProductStock(5);
         prod1.setProductPrice(299.99);
-        prod1.setProductMax(5);
-        prod1.setProductMin(2);
+        prod1.setProductMax(10);
+        prod1.setProductMin(0);
+        prod1.addAssociated(p1);
+        prod1.addAssociated(p2);       
         
         prod2.setProductID(1001);
         prod2.setProductName("Tricycle");
@@ -94,6 +93,7 @@ public class main extends Application {
         prod2.setProductPrice(99.99);
         prod2.setProductMax(10);
         prod2.setProductMin(0);
+        prod2.addAssociated(p3);
         
         Inventory.addProduct(prod1);
         Inventory.addProduct(prod2);

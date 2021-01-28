@@ -56,7 +56,9 @@ public class AddPartController implements Initializable {
     String machID;
     int partID;
     
-    //Handle changing of radio buttons
+    /**
+     *Method called when part type radio buttons are changed
+     */
     @FXML
     public void partTypeChange() {
         if(this.partType.getSelectedToggle().equals(this.addPartInHouse)) {
@@ -69,7 +71,13 @@ public class AddPartController implements Initializable {
         }
     }
     
-    //Add part to inventory on save action
+    /**
+     * Add part to inventory on save action
+     *
+     * RUNTIME ERROR: I was dealing with a null pointer exception on calling this method for a long time,
+     * The solution ended up being a very simple mistake I made.  The FX ID's in the FXML document were not pointing
+     * to the correct text fields in the GUI
+     */ 
     @FXML
     void handleSaveAction() throws IOException {
         
@@ -81,67 +89,68 @@ public class AddPartController implements Initializable {
         min = addPartMin.getText();
         machID = addPartMachineID.getText();
        
-        //Logic to verify no fields are empty
-        if (
-            addPartName.getText().isEmpty() ||
-            addPartInv.getText().isEmpty() ||
-            addPartPrice.getText().isEmpty() ||
-            addPartMax.getText().isEmpty() ||
-            addPartMin.getText().isEmpty() ||
-            addPartMachineID.getText().isEmpty()) 
-            {
-            Alert nullalert = new Alert(Alert.AlertType.ERROR);
-            nullalert.setTitle("Invalid");
-            nullalert.setContentText("Must fill out all fields!");
-            nullalert.showAndWait();
-        }
+        try {
+            //Logic to verify no fields are empty
+            if (
+                addPartName.getText().isEmpty() ||
+                addPartInv.getText().isEmpty() ||
+                addPartPrice.getText().isEmpty() ||
+                addPartMax.getText().isEmpty() ||
+                addPartMin.getText().isEmpty() ||
+                addPartMachineID.getText().isEmpty()) 
+                {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Invalid");
+                alert.setContentText("Must fill out all fields!");
+                alert.showAndWait();
+            }             
         
-        //Logic to verify max is larger than min
-        else if (Integer.parseInt(max) <= Integer.parseInt(min)) {
-            Alert nullalert = new Alert(Alert.AlertType.ERROR);
-            nullalert.setTitle("Invalid");
-            nullalert.setContentText("Maximum must be larger than minimum!");
-            nullalert.showAndWait();
-        }
-                
-        //Logic to verify Inventory is between the max and min
-        else if (Integer.parseInt(stock) <= Integer.parseInt(min) || Integer.parseInt(stock) >= Integer.parseInt(max)) {
-            Alert nullalert = new Alert(Alert.AlertType.ERROR);
-            nullalert.setTitle("Invalid");
-            nullalert.setContentText("Inventory must be between maximum and minimum!");
-            nullalert.showAndWait();
-        }
-        
-        //Finish function if verified
-        else {
-            
-            //Check part type
-            if (isInHouse) {
-                InHouse newPartIn = new InHouse();
-        
-                newPartIn.setId(partID);
-                newPartIn.setName(name);
-                newPartIn.setStock(Integer.parseInt(stock));
-                newPartIn.setPrice(Double.parseDouble(price));
-                newPartIn.setMax(Integer.parseInt(max));
-                newPartIn.setMin(Integer.parseInt(min));
-                newPartIn.setMachineID(Integer.parseInt(machID));
-            
-                addPart(newPartIn);  
+            //Logic to verify max is larger than min
+            else if (Integer.parseInt(max) <= Integer.parseInt(min)) {
+                Alert nullalert = new Alert(Alert.AlertType.ERROR);
+                nullalert.setTitle("Invalid");
+                nullalert.setContentText("Maximum must be larger than minimum!");
+                nullalert.showAndWait();
             }
+                
+            //Logic to verify Inventory is between the max and min
+            else if (Integer.parseInt(stock) <= Integer.parseInt(min) || Integer.parseInt(stock) >= Integer.parseInt(max)) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Invalid");
+                alert.setContentText("Inventory must be between maximum and minimum!");
+                alert.showAndWait();
+            }
+        
+            //Finish function if verified
             else {
-                OutSourced newPartOut = new OutSourced();
-                
-                newPartOut.setId(partID);
-                newPartOut.setName(name);
-                newPartOut.setStock(Integer.parseInt(stock));
-                newPartOut.setPrice(Double.parseDouble(price));
-                newPartOut.setMax(Integer.parseInt(max));
-                newPartOut.setMin(Integer.parseInt(min));
-                newPartOut.setCompanyName(machID);    
+            
+                //Check part type
+                if (isInHouse) {
+                    InHouse newPartIn = new InHouse();
         
-                addPart(newPartOut);
-            }
+                    newPartIn.setId(partID);
+                    newPartIn.setName(name);
+                    newPartIn.setStock(Integer.parseInt(stock));
+                    newPartIn.setPrice(Double.parseDouble(price));
+                    newPartIn.setMax(Integer.parseInt(max));
+                    newPartIn.setMin(Integer.parseInt(min));
+                    newPartIn.setMachineID(Integer.parseInt(machID));
+            
+                    addPart(newPartIn);  
+                }
+                else {
+                    OutSourced newPartOut = new OutSourced();
+                
+                    newPartOut.setId(partID);
+                    newPartOut.setName(name);
+                    newPartOut.setStock(Integer.parseInt(stock));
+                    newPartOut.setPrice(Double.parseDouble(price));
+                    newPartOut.setMax(Integer.parseInt(max));
+                    newPartOut.setMin(Integer.parseInt(min));
+                    newPartOut.setCompanyName(machID);    
+        
+                    addPart(newPartOut);
+                }
         
             //Return to the main screen
             Parent loader = FXMLLoader.load(getClass().getResource("mainScreen.fxml"));
@@ -150,9 +159,22 @@ public class AddPartController implements Initializable {
             window.setScene(scene);
             window.show();
         }
-    } 
+
+    }
+        //Catch for type errors
+        catch (IOException | NumberFormatException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Type error");
+            alert.setContentText("Verify that all fields are the correct data type");
+            alert.showAndWait();
+        }
+    }
     
-    //Return to the main screen on cancel button action
+    /**
+     *
+     * @throws IOException
+     * Exits to main screen on button press
+     */
     @FXML  
     public void cancelButtonAction() throws IOException{
         Parent loader = FXMLLoader.load(getClass().getResource("mainScreen.fxml"));
@@ -165,7 +187,7 @@ public class AddPartController implements Initializable {
      * Initializes the controller class.
      * @param url
      * @param rb
-     */
+     */  
     @Override
     public void initialize(URL url, ResourceBundle rb) {        
         partType = new ToggleGroup();
