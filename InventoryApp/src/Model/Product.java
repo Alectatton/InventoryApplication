@@ -1,6 +1,5 @@
 package Model;
 
-import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -10,14 +9,16 @@ import javafx.collections.ObservableList;
  */
 public class Product {
 
-     public static ObservableList<Part> associatedParts = FXCollections.observableArrayList();
-     private int productID;
-     private String name;
-     private double price;
-     private int stock;
-     private int min;
-     private int max;
-     private double cost;
+    /**
+     *
+     */
+    private ObservableList<Part> associatedParts = FXCollections.observableArrayList();
+    private int productID;
+    private String name;
+    private double price;
+    private int stock;
+    private int min;
+    private int max;
      
      /*
      Constructor for the product class
@@ -32,7 +33,7 @@ public class Product {
      }  
     
      /**
-     * @param productID
+     * @param productID sets the product ID
      */
     public void setProductID(int productID) {
         this.productID = productID;
@@ -48,7 +49,7 @@ public class Product {
     
     /**
      *
-     * @param name
+     * @param name set the product name
      */
     public void setProductName(String name) {
         this.name = name;
@@ -64,7 +65,7 @@ public class Product {
     
     /**
      *
-     * @param stock
+     * @param stock set the number of products in stock
      */
     public void setProductStock(int stock) {
         this.stock = stock;
@@ -80,7 +81,7 @@ public class Product {
     
     /**
      *
-     * @param price
+     * @param price set the product price
      */
     public void setProductPrice(double price) {
         this.price = price;
@@ -96,7 +97,7 @@ public class Product {
     
     /**
      *
-     * @param max
+     * @param max set the maximum number of products
      */
     public void setProductMax(int max) {
         this.max = max;
@@ -112,7 +113,7 @@ public class Product {
     
     /**
      *
-     * @param min
+     * @param min set the minimum number of products
      */
     public void setProductMin(int min) {
         this.min = min;
@@ -130,31 +131,32 @@ public class Product {
      *
      * @return associated parts list
      */
-    public static ObservableList getAssociated() {
-        return associatedParts;
+    public ObservableList<Part> getAssociated() {
+        return this.associatedParts;
     }
     
     /**
      *set associated parts
-     * @param associatedParts
+     * @param associatedParts set associated parts list
      */
-    public static void setAssociated(ObservableList<Part> associatedParts) {
-        Product.associatedParts = associatedParts;
+    public void setAssociated(ObservableList<Part> associatedParts) {
+        this.associatedParts = associatedParts;
     }
     
     /**
      *
-     * @param part
+     * @param part add part to the products associated parts list
      */
-    public static void addAssociated(Part part) {
+    public void addAssociated(Part part) {
         associatedParts.add(part);
     }
+    
     
     /**
      *
      * @param part remove part
      */
-    public static void removeAssociated(Part part) {
+    public void removeAssociated(Part part) {
         associatedParts.remove(part);
     }
 

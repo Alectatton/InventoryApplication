@@ -182,8 +182,8 @@ public class modPartController implements Initializable {
     
     /**
      * Initializes the controller class.
-     * @param url
-     * @param rb
+     * @param url initialize controller
+     * @param rb initialize controller
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {

@@ -67,6 +67,7 @@ public class MainScreenController implements Initializable {
     @FXML private final ObservableList<Product> prodInventory = FXCollections.observableArrayList();
     @FXML private final ObservableList<Product> lookupProduct = FXCollections.observableArrayList();
     
+    //Other
     @FXML private Button exitButton;
     @FXML private Inventory inv;
     public static ObservableList<Part> selectedAssocPart = FXCollections.observableArrayList();
@@ -129,11 +130,11 @@ public class MainScreenController implements Initializable {
             noSelectionAlert();
         }        
         else {
-        Parent loader = FXMLLoader.load(getClass().getResource("modPart.fxml"));
-        Scene scene = new Scene(loader);
-        Stage window = (Stage) partMod.getScene().getWindow();
-        window.setScene(scene);
-        window.show();
+            Parent loader = FXMLLoader.load(getClass().getResource("modPart.fxml"));
+            Scene scene = new Scene(loader);
+            Stage window = (Stage) partMod.getScene().getWindow();
+            window.setScene(scene);
+            window.show();
         }
     }
     
@@ -241,6 +242,12 @@ public class MainScreenController implements Initializable {
         if (product == null) {
             noSelectionAlert();
         }
+        else if (isAssociated(product)) {
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Failure!");
+                alert.setContentText("Cannot delete a product with active associations");
+                alert.showAndWait();
+        }
         else {
             try {
                 Inventory.deleteProduct(product);
@@ -265,8 +272,8 @@ public class MainScreenController implements Initializable {
     
     /**
     * Initializes the controller class.
-    * @param url
-    * @param rb
+    * @param url initialize controller
+    * @param rb initialize controller
     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -308,6 +315,17 @@ public class MainScreenController implements Initializable {
         nullalert.setTitle("No Selection");
         nullalert.setContentText("You must make a selection before you can do this action");
         nullalert.showAndWait();
+    }
+
+    private boolean isAssociated(Product product) {
+        for (Part p : allParts) {            
+            for (Part a : product.getAssociated()) {                
+                if (a.getId() == p.getId()) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
     
 }

@@ -8,12 +8,9 @@ package View_Controller;
 import Model.Inventory;
 import static Model.Inventory.allParts;
 import Model.Part;
-import Model.Product;
-import static Model.Product.getAssociated;
 import static Model.Inventory.getParts;
 import static Model.Inventory.modProduct;
-import static Model.Product.addAssociated;
-import static Model.Product.associatedParts;
+import Model.Product;
 import static View_Controller.MainScreenController.getSelectedProduct;
 import java.io.IOException;
 import java.net.URL;
@@ -75,6 +72,8 @@ public class modProductController implements Initializable {
     @FXML private Button modProdRemove;
     @FXML private Button modProdSave;
     @FXML private Button modProdCancel;
+    
+    private ObservableList<Part> associatedParts;
     
     //Initialize variables as strings
     int prodId;
@@ -163,7 +162,7 @@ public class modProductController implements Initializable {
                 newProduct.setProductPrice(Double.parseDouble(price));
                 newProduct.setProductMax(Integer.parseInt(max));
                 newProduct.setProductMin(Integer.parseInt(min));
-                newProduct.setAssociated(currentAssociated);                     
+                newProduct.setAssociated(associatedParts);                     
                 modProduct(prodId - 1000, newProduct);                     
                 
                 //Return to the main screen
@@ -196,12 +195,6 @@ public class modProductController implements Initializable {
             nullalert.setContentText("You must make a selection before you can do this action");
             nullalert.showAndWait();
         }
-        else if(associatedParts.contains(part)) {
-            Alert nullalert = new Alert(Alert.AlertType.ERROR);
-            nullalert.setTitle("Duplicate Part");
-            nullalert.setContentText("Part cannot be added twice");
-            nullalert.showAndWait();
-        }
         else {
             associatedParts.add(part);
             modProdAssociated.setItems(associatedParts);
@@ -221,8 +214,8 @@ public class modProductController implements Initializable {
             nullalert.showAndWait();
         }
         else {
-            Product.removeAssociated(part);       
-            modProdAssociated.setItems(getAssociated());
+            associatedParts.remove(part);       
+            modProdAssociated.setItems(associatedParts);
             modProdAssociated.refresh();
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Success!");
@@ -251,13 +244,13 @@ public class modProductController implements Initializable {
     }
     
     private void updateAssociatedParts() {
-        modProdAssociated.setItems(currentAssociated);
+        modProdAssociated.setItems(associatedParts);
     }
     
     /**
      * Initializes the controller class.
-     * @param url
-     * @param rb
+     * @param url initialize controller
+     * @param rb initialize controller
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -283,7 +276,7 @@ public class modProductController implements Initializable {
                
         updateAllParts();
         
-        currentAssociated = Product.getAssociated();   
+        associatedParts = selectedProduct.getAssociated();   
         updateAssociatedParts();
     }        
 }

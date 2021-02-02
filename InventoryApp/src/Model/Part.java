@@ -34,7 +34,7 @@ public abstract class Part {
     }
 
     /**
-     * @param partID
+     * @param partID sets the parts unique ID
      */
     public void setId(int partID) {
         this.partID = partID;

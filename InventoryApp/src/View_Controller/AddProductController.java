@@ -6,9 +6,6 @@ import static Model.Inventory.allParts;
 import static Model.Inventory.getParts;
 import Model.Part;
 import Model.Product;
-import static Model.Product.addAssociated;
-import static Model.Product.associatedParts;
-import static Model.Product.getAssociated;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -76,7 +73,13 @@ public class AddProductController implements Initializable {
     String price;
     String max;
     String min;
-
+    
+    //Associated parts list for current product
+    private ObservableList<Part> associatedParts;
+    
+    public AddProductController() {
+    }
+    
     /*
     * Method to search for parts with a matching ID or Name
     */
@@ -156,7 +159,8 @@ public class AddProductController implements Initializable {
                 newProduct.setProductPrice(Double.parseDouble(price));
                 newProduct.setProductMax(Integer.parseInt(max));
                 newProduct.setProductMin(Integer.parseInt(min));
-        
+                newProduct.setAssociated(associatedParts);
+                       
                 addProduct(newProduct);
         
                 //Return to the main screen
@@ -178,8 +182,8 @@ public class AddProductController implements Initializable {
     }
     
     /**
-     * Method to add an associated part to the current product
      * 
+     * Method to add an associated part to the current product
      */
     @FXML  
     public void addPartAction(){
@@ -190,33 +194,28 @@ public class AddProductController implements Initializable {
             nullalert.setContentText("You must make a selection before you can do this action");
             nullalert.showAndWait();
         }
-        else if(associatedParts.contains(part)) {
-            Alert nullalert = new Alert(Alert.AlertType.ERROR);
-            nullalert.setTitle("Duplicate Part");
-            nullalert.setContentText("Part cannot be added twice");
-            nullalert.showAndWait();
-        }
         else {
-            addAssociated(part);
-            addProdAssociated.setItems(getAssociated());
+            associatedParts.add(part);
+            addProdAssociated.setItems(associatedParts);
         }
-    }
-    
-    /*
-    * Method to remove the selected part from the associated part list
-    */
+    }        
+
+    /**
+     * Method to remove the selected part from the associated part list
+     */
+
     @FXML
     public void removePartAction() {
-        Part part = addProdAssociated.getSelectionModel().getSelectedItem();
-        if (part == null) {
+        Part newPart = addProdAssociated.getSelectionModel().getSelectedItem();
+        if (newPart == null) {
             Alert nullalert = new Alert(Alert.AlertType.ERROR);
             nullalert.setTitle("No Selection");
             nullalert.setContentText("You must make a selection before you can do this action");
             nullalert.showAndWait();
         }
         else {        
-            Product.removeAssociated(part);        
-            addProdAssociated.setItems(getAssociated());
+            associatedParts.remove(newPart);        
+            addProdAssociated.setItems(associatedParts);
             addProdAssociated.refresh();
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Success!");
@@ -248,8 +247,8 @@ public class AddProductController implements Initializable {
     
     /**
      * Initializes the controller class.
-     * @param url
-     * @param rb
+     * @param url initialize controller
+     * @param rb initialize controller
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {

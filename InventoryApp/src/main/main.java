@@ -17,15 +17,15 @@ public class main extends Application {
     
     /**
      *
-     * @param args
+     * @param args Launch the application
      */
     public static void main(String[] args) {
         launch(args);
     }
     
     /**
-     * @param stage
-     * @throws java.io.IOException
+     * @param stage set the stage
+     * @throws java.io.IOException throws exception
      */
     
     @Override
@@ -40,7 +40,7 @@ public class main extends Application {
     }
 
     void addTestData() {
-        
+         
         //Add Parts
         InHouse p1 = new InHouse();
         OutSourced p2 = new OutSourced();

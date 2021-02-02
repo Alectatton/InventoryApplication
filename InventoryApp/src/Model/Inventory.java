@@ -9,10 +9,8 @@ import javafx.collections.ObservableList;
  */
 public class Inventory {
 
-    public static final ObservableList<Product> products = FXCollections.observableArrayList();
-    public static final ObservableList<Part> allParts = FXCollections.observableArrayList();
-    private static int partID;
-    private String partName;
+    public final static ObservableList<Product> products = FXCollections.observableArrayList();
+    public final static ObservableList<Part> allParts = FXCollections.observableArrayList();
    
     /*
     Empty Constructor for inventory class
