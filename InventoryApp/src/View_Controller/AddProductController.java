@@ -33,7 +33,8 @@ import javafx.stage.Stage;
  * @author alect
  * 
  * FUTURE ENHANCEMENT: I believe a potentially useful feature that could be added to the project is allowing
- * the user to Add new or modify current parts in the inventory from both the add product and modify product screens
+ * the user to Add new or modify current parts in the inventory from both the add product and modify product screens.
+ * 
  */
 public class AddProductController implements Initializable {
     
@@ -75,7 +76,7 @@ public class AddProductController implements Initializable {
     String min;
     
     //Associated parts list for current product
-    private ObservableList<Part> associatedParts;
+    private final ObservableList<Part> associatedParts = FXCollections.observableArrayList();
     
     public AddProductController() {
     }
@@ -182,6 +183,10 @@ public class AddProductController implements Initializable {
     }
     
     /**
+     * 
+     * RUNTIME ERROR:  I was having a difficult time getting the add part feature to work correctly, the associated parts
+     * list would persist through each different product, the solution was to change the associated parts list from static to 
+     * non-static so that a different list was generated for each product.
      * 
      * Method to add an associated part to the current product
      */
